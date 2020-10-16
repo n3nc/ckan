@@ -13,10 +13,28 @@
     {%- set domain = h.url_for(group_type + '_read', id='', qualified=true) -%}
     {% set domain = domain|replace("http://", "")|replace("https://", "") %}
     {% set attrs = {'data-module': 'slug-preview-slug', 'class': 'form-control input-sm', 'data-module-prefix': domain, 'data-module-placeholder': '<' + group_type + '>'} %}
+    {% set groups_available = h.groups_available() %}
 
     {{ form.prepend('name', label=_('URL'), prepend=prefix, id='field-url', placeholder=_('my-' + group_type), value=data.name, error=errors.name, attrs=attrs, is_required=true) }}
 
     {{ form.markdown('description', label=_('Description'), id='field-description', placeholder=_('A little information about my group...'), value=data.description, error=errors.description) }}
+
+    <div class="form-group control-medium">
+      <label for="field-organizations" class="control-label">{{ _('Group') }}</label>
+      <div class="controls">
+        <input type="hidden" id="field-extras-key-0" name="extras__0__key" value="parent"></input>
+        {% set parent = data.extras[0].value if data.extras else '__root__' %}
+        <select id="field-extras-value-0" name="extras__0__value" data-module="autocomplete">
+          <option value="__root__" {% if parent == '__root__' %} selected="selected" {% endif %}>(상위 그룹)</option>
+          {% for group in groups_available %}
+          {% set is_root = 'extras' not in group or group.extras|length == 0 or group.extras[0].key != 'parent' or group.extras[0].value == '__root__' or group.extras[0]|length == 0 %}
+          {% if is_root %}
+          <option value="{{ group.name }}" {% if group.name == parent %} selected="selected" {% endif %}>{{ group.display_name }}</option>
+          {% endif %}
+          {% endfor %}
+      </select>
+      </div>
+    </div>
 
     {% set is_upload = data.image_url and not data.image_url.startswith('http') %}
     {% set is_url = data.image_url and data.image_url.startswith('http') %}
@@ -25,9 +43,11 @@
 
   {% endblock %}
 
-  {% block custom_fields %}
-    {% snippet 'snippets/custom_form_fields.html', extras=data.extras, errors=errors, limit=3 %}
-  {% endblock %}
+  {#
+    {% block custom_fields %}
+      {% snippet 'snippets/custom_form_fields.html', extras=data.extras, errors=errors, limit=3 %}
+    {% endblock %}
+  #}
 
   {{ form.required_message() }}
 

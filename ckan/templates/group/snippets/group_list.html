@@ -8,12 +8,21 @@ Example:
     {% snippet "group/snippets/group_list.html" %}
 
 #}
+{% block hierarchical_group %}
+{% set groups_all = h.groups_available() %}
+
+<div data-module="hierarchical-group" data-module-all="{{ groups_all }}" data-module-list="{{ groups|map(attribute='name')|list }}">
+  <vue-main></vue-main>
+</div>
+{% endblock %}
+{#
 {% block group_list %}
 <ul class="media-grid" data-module="media-grid">
-	{% block group_list_inner %}
+  {% block group_list_inner %}
   {% for group in groups %}
     {% snippet "group/snippets/group_item.html", group=group, position=loop.index %}
   {% endfor %}
   {% endblock %}
 </ul>
 {% endblock %}
+#}

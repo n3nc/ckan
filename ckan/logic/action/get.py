@@ -590,7 +590,7 @@ def group_list_authz(context, data_dict):
         if package:
             groups = set(groups) - set(package.get_groups())
 
-    group_list = model_dictize.group_list_dictize(groups, context)
+    group_list = model_dictize.group_list_dictize(groups, context, include_extras=True)
     return group_list
 
 

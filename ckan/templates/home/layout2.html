@@ -1,22 +1,40 @@
-<div role="main" class="hero">
+<div role="main" class="hero" style="min-height: 0px; padding-bottom: 0px;">
   <div class="container">
     <div class="row row1">
       <div class="col-md-6 col1">
         {% block search %}
           {% snippet 'home/snippets/search.html' %}
         {% endblock %}
+      </div>
+      <div class="col-md-6 col2">
         {% block stats %}
           {% snippet 'home/snippets/stats.html' %}
         {% endblock %}
       </div>
-      <div class="col-md-6 col2">
-        {% block promoted %}
-          {% snippet 'home/snippets/promoted.html' %}
-        {% endblock %}
-      </div>
+{#
+  <!--
+<div class="col-md-6 col2">
+  {% block promoted %}
+    {% snippet 'home/snippets/promoted.html' %}
+  {% endblock %}
+</div>
+  -->
+#}
     </div>
   </div>
 </div>
+<div role="main" style="padding-top: 0px;">
+  {% block treemap_chart_1 %}
+  {% set groups_all = h.groups_available() %}
+    <div role="main" style="min-height: 0px; padding-top: 0px;">
+      <div class="container" data-module='treemap-chart' data-module-all='{{ groups_all }}'>
+        <vue-main></vue-main>
+      </div>
+    </div>  
+  {% endblock %}
+</div>
+{#
+<!--
 <div role="main">
   <div class="container">
     <div class="row row2">
@@ -33,3 +51,5 @@
     </div>
   </div>
 </div>
+-->
+#}
