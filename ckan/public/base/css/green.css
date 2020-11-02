@@ -8320,9 +8320,11 @@ a.tag:hover {
     background-color: #ffffff;
     border: 1px solid #cccccc;
     border-radius: 4px;
+}
+/*
     -webkit-box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
     box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
-}
+*/
 
 .module > .page-header {
     margin-top: 15px;
