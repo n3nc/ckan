@@ -5,8 +5,15 @@
     {% endblock %}
   </div>
 </div>
-{% block treemap_chart %}
 {% set groups_all = h.groups_available() %}
+{% block group_list %}
+<div role="main" class="hero">
+  <div class="container"  data-module="hierarchical-group-main" data-module-all="{{ groups_all }}" data-module-list="{{ groups_all|map(attribute='name')|list }}">
+    <vue-main></vue-main>
+  </div> 
+</div>  
+{% endblock %}
+{% block treemap_chart %}
   <div role="main" class="hero">
     <div class="container" data-module='treemap-chart' data-module-all='{{ groups_all }}'>
       <vue-main></vue-main>

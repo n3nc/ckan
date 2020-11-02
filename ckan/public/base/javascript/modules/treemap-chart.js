@@ -25,26 +25,30 @@ this.ckan.module('treemap-chart', function() {
 
 	let main = {
         template: `
-        <div class="row row2 box" style="padding: 20px 0px; margin-left: 0px; margin-right: 0px;">
-                <div class="col-md-6 col1">
-                    <div class="module-shallow box" style="padding: 5px; padding-left: 15px; padding-right: 15px;">
-                        <h3 class="heading" style="font-size: 24px;">Tags</h3>
-                        <div height='500px' ref='wordcloud1'></div>
+        <div>
+            <div class="row row2 box" style="padding: 20px 0px; margin-left: 0px; margin-right: 0px; margin-top: -10px;">
+                    <div class="col-md-6 col1">
+                        <div class="module-shallow box" style="padding: 5px; padding-left: 15px; padding-right: 15px;">
+                            <h3 class="heading" style="font-size: 24px;">Tags</h3>
+                            <div height='500px' ref='wordcloud1'></div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6 col2">
-                    <div class="module-shallow box" style="padding: 5px; padding-left: 15px; padding-right: 15px;">
-                        <h3 class="heading" style="font-size: 24px;">Data Map</h3>
-                        <div height='500px' ref='treemap1'></div>
+                    <div class="col-md-6 col2">
+                        <div class="module-shallow box" style="padding: 5px; padding-left: 15px; padding-right: 15px;">
+                            <h3 class="heading" style="font-size: 24px;">Data Map</h3>
+                            <div height='500px' ref='treemap1'></div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-12 col2">
-                    <div class="module-shallow box" style="padding: 5px; margin-top: 20px;" v-if="selected">
-                        <h3 class="heading" style="font-size: 24px;"><span style=" margin-right: 0.5em; padding-right: 0.5em;">{{ (type=='groups')?'GROUP:':'TAG:'}}</span><span>{{ (type=='groups')?(selected.brand + " > " + selected.name):selected.name}}</span></h3>
-                        <h2>{{ package_count }}개 데이터셋을 찾았습니다.</h2>
-                        <datasets :data="packages"></datasets>
+            </div>
+            <div class="row row1 box" style="padding: 20px 0px; margin-left: 0px; margin-right: 0px; margin-top: 25px; margin-bottom: 100px;">
+                    <div class="col-md-12 col1">
+                        <div class="module-shallow box" style="padding: 5px;" v-if="selected">
+                            <h3 class="heading" style="font-size: 24px;"><span style=" margin-right: 0.5em; padding-right: 0.5em;">{{ (type=='groups')?'그룹:':'태그:'}}</span><span>{{ (type=='groups')?(selected.brand + " > " + selected.title):selected.name}}</span></h3>
+                            <h2>{{ package_count }}개 데이터셋을 찾았습니다.</h2>
+                            <datasets :data="packages"></datasets>
+                        </div>
                     </div>
-                </div>
+            </div>
         </div>
         `,
         data() {
@@ -98,6 +102,7 @@ this.ckan.module('treemap-chart', function() {
                 G2.registerInteraction('my-event2', {
                     start: [{ trigger: 'element:click', action: (c) => {
                       console.log(c);
+                      if (c.event.data.data == null) return;
                       me.selected = c.event.data.data;
                       me.doSearch(c.event.data.data.name, 'tags');
                     } }],
@@ -181,13 +186,15 @@ this.ckan.module('treemap-chart', function() {
                     if ( !(g.name in mobiles)) {
                         mobiles[g.name] = {
                             name: g.name,
+                            title: g.display_name,
                             id: g.id,
                             brand: g.display_name,
                             total: 0,
                             children: []
                         }
                     } else {
-                        mobiles[g.name].name = g.name;						
+                        mobiles[g.name].name = g.name;
+                        mobiles[g.name].title = g.display_name;
                         mobiles[g.name].id = g.id;
                         mobiles[g.name].brand = g.display_name;
                     }
@@ -254,7 +261,7 @@ this.ckan.module('treemap-chart', function() {
                 }        
             }
 
-            this.selected = nodes[0];
+            this.selected = nodes.find(x => x.value != 0);
             this.doSearch(this.selected.name, 'groups');
 
             const nodes2 = [];
@@ -289,10 +296,8 @@ this.ckan.module('treemap-chart', function() {
             showTitle: false,
             showMarkers: false,
             itemTpl:
-                '<li style="list-style: none;">' +
-                '<span style="background-color:{color};" class="g2-tooltip-marker"></span>' +
-                '{title}<br/>' +
-                '<span style="padding-left: 16px">Datasets：{value}</span><br/>' +
+                '<li style="margin-bottom: 10px;">' +
+                '<span>{title} : {value}</span><br/>' +
                 '</li>',
             });
             
@@ -311,7 +316,7 @@ this.ckan.module('treemap-chart', function() {
                         labelItems[idx].x -= w/2;
                         labelItems[idx].y -= h/2;
                         labelItems[idx].style.fontSize=value * 50 + 10;
-                        labelItems[idx].content = origin.name + " : " + (value * 100).toFixed(1) + "%";
+                        labelItems[idx].content = origin.title + "\r\n" + (value * 100).toFixed(1) + "%";
                     }
 
                     const labelsRenderer = this.getLabelsRenderer();
@@ -347,13 +352,8 @@ this.ckan.module('treemap-chart', function() {
                   textBaseline: 'top',
                   textAlign: 'left',
                   fontSize: 40
-                  },
-                  content: (obj) => {
-                    if (obj.name !== 'root') {
-                        return obj.name + ':' + (obj.value).toFixed(1);
-                    }
-                  }
-              });
+                  }              
+                });
           
             chart
             .polygon()
@@ -371,7 +371,7 @@ this.ckan.module('treemap-chart', function() {
                 stroke: '#fff',
             })
             .label(
-                'title',
+                '',
                 {
                 offset: 0,
                 style: {
@@ -388,8 +388,9 @@ this.ckan.module('treemap-chart', function() {
             G2.registerInteraction('my-event', {
                 start: [{ trigger: 'element:click', action: (c) => {
                   console.log(c);
-                  me.selected = c.event.data.data;
-                  me.doSearch(c.event.data.data.name, 'groups');
+                  if (c.event.data.data) me.selected = c.event.data.data;
+                  else if (c.event.data._origin) me.selected = c.event.data._origin;
+                  me.doSearch(me.selected.name, 'groups');
                 } }],
             });
             chart.interaction('element-active');
