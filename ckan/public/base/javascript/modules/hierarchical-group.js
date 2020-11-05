@@ -122,7 +122,12 @@ this.ckan.module('hierarchical-group', function() {
 				console.log(this.categories);
 
 				if (this.groups && this.groups.length != 0 && (this.currentTab == null || this.categories[this.currentTab] == null)) {
-					this.currentTab = this.groups[0].name;
+					for(it in this.categories) {
+						if (this.categories[it].children != 0) {
+							this.currentTab = it;
+							break;
+						}
+					}
 				}
 			}
 		},
