@@ -1955,6 +1955,13 @@ def groups_available(am_member=False):
 
 
 @core_helper
+def groups_all():
+    context = {}
+    data_dict = {'all_fields':True, 'include_extras': True}
+    return logic.get_action('group_list')(context, data_dict)
+
+
+@core_helper
 def organizations_available(
         permission='manage_group', include_dataset_count=False):
     '''Return a list of organizations that the current user has the specified
