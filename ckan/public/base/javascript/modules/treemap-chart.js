@@ -315,7 +315,7 @@ this.ckan.module('treemap-chart', function() {
                         const h = (m[idx].y[0] - m[idx].y[2]) - 30;
                         labelItems[idx].x -= w/2;
                         labelItems[idx].y -= h/2;
-                        labelItems[idx].style.fontSize=value * 50 + 10;
+                        labelItems[idx].style.fontSize=value * 20 + 10;
                         labelItems[idx].content = origin.title + "\r\n" + (value * 100).toFixed(1) + "%";
                     }
 
@@ -389,7 +389,7 @@ this.ckan.module('treemap-chart', function() {
                 start: [{ trigger: 'element:click', action: (c) => {
                   console.log(c);
                   if (c.event.data.data) me.selected = c.event.data.data;
-                  else if (c.event.data._origin) me.selected = c.event.data._origin;
+                  else return;
                   me.doSearch(me.selected.name, 'groups');
                 } }],
             });
