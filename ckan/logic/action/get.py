@@ -414,6 +414,7 @@ def _group_or_org_list(context, data_dict, is_org=False):
     if all_fields:
         action = 'organization_show' if is_org else 'group_show'
         group_list = []
+        data_dict['dataset_counts'] = model_dictize.get_group_dataset_counts()
         for group in groups:
             data_dict['id'] = group.id
             for key in ('include_extras', 'include_tags', 'include_users',
@@ -1224,10 +1225,17 @@ def _group_or_org_show(context, data_dict, is_org=False):
     if not is_org and group.is_organization:
         raise NotFound
 
+    if asbool(data_dict.get('dataset_counts', False)):
+        dataset_counts = data_dict['dataset_counts']
+    else:
+        dataset_counts = None
+
     if is_org:
         _check_access('organization_show', context, data_dict)
+        each_count_dataset = dataset_counts['owner_org'] if dataset_counts is not None else None
     else:
         _check_access('group_show', context, data_dict)
+        each_count_dataset = dataset_counts['groups'] if dataset_counts is not None else None
 
     group_dict = model_dictize.group_dictize(group, context,
                                              packages_field=packages_field,
@@ -1265,6 +1273,18 @@ def _group_or_org_show(context, data_dict, is_org=False):
     group_dict, errors = lib_plugins.plugin_validate(
         group_plugin, context, group_dict, schema,
         'organization_show' if is_org else 'group_show')
+
+    if is_org:
+        if not None is each_count_dataset and asbool(each_count_dataset.get(group_dict['id'], False)):
+            group_dict['package_count'] = each_count_dataset[group_dict['id']]
+        else:
+            group_dict['package_count'] = 0
+    else:
+        if not None is each_count_dataset and asbool(each_count_dataset.get(group_dict['name'], False)):
+            group_dict['package_count'] = each_count_dataset[group_dict['name']]
+        else:
+            group_dict['package_count'] = 0
+
     return group_dict
 
 
