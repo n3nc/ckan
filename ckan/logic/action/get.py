@@ -1274,16 +1274,10 @@ def _group_or_org_show(context, data_dict, is_org=False):
         group_plugin, context, group_dict, schema,
         'organization_show' if is_org else 'group_show')
 
-    if is_org:
-        if not None is each_count_dataset and asbool(each_count_dataset.get(group_dict['id'], False)):
-            group_dict['package_count'] = each_count_dataset[group_dict['id']]
-        else:
-            group_dict['package_count'] = 0
+    if each_count_dataset is not None and asbool(each_count_dataset.get(group_dict['id' if is_org else 'name'], False)):
+        group_dict['package_count'] = each_count_dataset[group_dict['id' if is_org else 'name']]
     else:
-        if not None is each_count_dataset and asbool(each_count_dataset.get(group_dict['name'], False)):
-            group_dict['package_count'] = each_count_dataset[group_dict['name']]
-        else:
-            group_dict['package_count'] = 0
+        group_dict['package_count'] = 0
 
     return group_dict
 
