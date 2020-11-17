@@ -25,7 +25,12 @@
   <section class="module-content">
     {% block secondary_content_inner %}
       {% block user_image %}
+      {#
       <div class="image">{{ h.linked_gravatar(user.email_hash, 190) }}</div>
+      #}
+      <div style="text-align: center;">
+         <i class="fa fa-user" aria-hidden="true" style="font-size: 10em; color: darkgray;"></i>
+      </div>
       {% endblock %}
       {% block user_heading %}
       <h1 class="heading">{{ user.display_name }}</h1>
