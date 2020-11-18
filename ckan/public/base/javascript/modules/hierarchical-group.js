@@ -110,6 +110,16 @@ this.ckan.module('hierarchical-group', function() {
 					}
 				}
 
+				let filteredCategories = {};
+				for(ci in this.categories) {
+					let c = this.categories[ci];
+					if (c.children.length > 0) 
+						filteredCategories[ci] = c;
+
+				}
+
+				this.categories = filteredCategories;
+
 				for(ci in this.categories) {
 					const c = this.categories[ci];
 					for(childi in c.children) {
@@ -151,7 +161,11 @@ this.ckan.module('hierarchical-group', function() {
 			const me = this;
 			const groupasjson = this.options.all.replace(/: u\'/g, ':"').replace(/\'/g, '"').replace(/: False/g, ':false').replace(/: True/g, ':true');
 			const selectedList = JSON.parse(this.options.list.replace(/u\'/g, '"').replace(/\'/g, '"').replace(/, False/g, ':false').replace(/, True/g, ':true'));
-			const filterdList = JSON.parse(groupasjson).filter(x => selectedList.includes(x.name));
+			const filterdList = JSON.parse(groupasjson).filter(x => {
+				const group = (x.extras.length != 0 && x.extras[0].key == 'parent' ) ? x.extras[0].value : null;
+				return selectedList.includes(x.name) || group == null || group == '__root__';
+			});
+
 			app = new Vue({
 				data() {
 					return {

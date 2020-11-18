@@ -13,7 +13,7 @@
         </pre>
         {% set is_root = 'extras' not in group or group.extras|length == 0 or group.extras[0].key != 'parent' or group.extras[0].value == '__root__' or group.extras[0]|length == 0 %}
         {% if not is_root %}
-          <option value="{{ group.id }}"> {{ group.extras[0].value + " > " + group.display_name }}</option>
+          <option value="{{ group.id }}"> {{ group.dpname + " > " + group.display_name }}</option>
         {% endif %}
         {% endfor %}
       </select>
