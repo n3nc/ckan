@@ -62,6 +62,8 @@ WebOb==1.0.8              # via fanstatic, pylons, repoze.who, repoze.who-friend
 WebTest==1.4.3            # via pylons
 Werkzeug==0.14.1          # via flask
 zope.interface==4.3.2
+python-libmagic==0.4.0
+python-magic-bin==0.4.14
 
 # The following packages are commented out because they are
 # considered to be unsafe in a requirements file:

@@ -45,3 +45,4 @@ node_modules/
 
 # docker
 contrib/docker/.env
+/venv/
