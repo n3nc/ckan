@@ -174,6 +174,8 @@ def create_library(name, path, depend_base=True):
             if rel_path:
                 rel_path = rel_path[1:]
             filepath = os.path.join(rel_path, f)
+            if (os.name == 'nt'):
+                filepath = filepath.replace('\\', '/')
             filename_only, extension = os.path.splitext(f)
             if extension in ('.css', '.js') and (
                     not filename_only.endswith('.min')):
