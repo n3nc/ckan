@@ -1,6 +1,8 @@
 {% extends "package/base.html" %}
 
 {% set res = c.resource %}
+{% set rules = c.userobj["about"].split(", ") %}
+{% set can_download = ("ROOT" in rules or "USERADMIN" in rules) %}
 
 {% block head_extras -%}
   {{ super() }}
@@ -30,7 +32,7 @@
             {% if h.check_access('package_update', {'id':pkg.id }) %}
               <li>{% link_for _('Manage'), controller='package', action='resource_edit', id=pkg.name, resource_id=res.id, class_='btn btn-default', icon='wrench' %}</li>
             {% endif %}
-            {% if res.url and h.is_url(res.url) %}
+            {% if res.url and h.is_url(res.url) and can_download %}
               <li>
                 <div class="btn-group">
                 <a class="btn btn-primary resource-url-analytics resource-type-{{ res.resource_type }}" href="{{ res.url }}">
@@ -72,10 +74,12 @@
         {% block resource_content %}
           {% block resource_read_title %}<h1 class="page-heading">{{ h.resource_display_name(res) | truncate(50) }}</h1>{% endblock %}
           {% block resource_read_url %}
-            {% if res.url and h.is_url(res.url) %}
-              <p class="text-muted ellipsis">{{ _('URL:') }} <a class="resource-url-analytics" href="{{ res.url }}" title="{{ res.url }}">{{ res.url }}</a></p>
-            {% elif res.url %}
-              <p class="text-muted break-word">{{ _('URL:') }} {{ res.url }}</p>
+            {% if can_download %}
+              {% if res.url and h.is_url(res.url) %}
+                <p class="text-muted ellipsis">{{ _('URL:') }} <a class="resource-url-analytics" href="{{ res.url }}" title="{{ res.url }}">{{ res.url }}</a></p>
+              {% elif res.url %}
+                <p class="text-muted break-word">{{ _('URL:') }} {{ res.url }}</p>
+              {% endif %}
             {% endif %}
           {% endblock %}
           <div class="prose notes" property="rdfs:label">
