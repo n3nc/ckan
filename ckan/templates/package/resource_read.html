@@ -2,7 +2,7 @@
 
 {% set res = c.resource %}
 {% set rules = c.userobj["about"].split(",") %}
-{% set can_download = ("ROOT" in rules or "USERADMIN" in rules) %}
+{% set can_download = ("ROOT" in rules or "USERADMIN" in rules or c.userobj.sysadmin) %}
 
 {% block head_extras -%}
   {{ super() }}
