@@ -1,7 +1,7 @@
 {% extends "package/base.html" %}
 
 {% set res = c.resource %}
-{% set rules = c.userobj["about"].split(",") %}
+{% set rules = c.userobj["about"].split(",")  if c.userobj and c.userobj["about"] else [] %}
 {% set can_download = ("ROOT" in rules or "USERADMIN" in rules or c.userobj.sysadmin) %}
 
 {% block head_extras -%}
