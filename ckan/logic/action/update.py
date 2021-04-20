@@ -79,8 +79,7 @@ def resource_update(context, data_dict):
     del context["resource"]
 
     package_id = resource.package.id
-    pkg_dict = _get_action('package_show')(dict(context, return_type='dict'),
-        {'id': package_id})
+    pkg_dict = _get_action('package_show')(context, {'id': package_id})
 
     for n, p in enumerate(pkg_dict['resources']):
         if p['id'] == id:
@@ -462,7 +461,6 @@ def package_revise(context, data_dict):
 
     package_show_context = dict(
         context,
-        return_type='dict',
         for_update=True)
     orig = _get_action('package_show')(
         package_show_context,
@@ -655,7 +653,7 @@ def _group_or_org_update(context, data_dict, is_org=False):
     except AttributeError:
         schema = group_plugin.form_to_db_schema()
 
-    upload = uploader.get_uploader('group', group.image_url)
+    upload = uploader.get_uploader('group')
     upload.update_data_dict(data_dict, 'image_url',
                             'image_upload', 'clear_upload')
 
@@ -932,7 +930,6 @@ def task_status_update(context, data_dict):
     session = model.Session
     context['session'] = session
 
-    user = context['user']
     id = data_dict.get("id")
     schema = context.get('schema') or schema_.default_task_status_schema()
 

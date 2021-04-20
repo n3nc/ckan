@@ -1,6 +1,5 @@
 # encoding: utf-8
 
-import datetime
 import pytest
 
 from ckan import model
@@ -53,10 +52,6 @@ class TestStatsPlugin(object):
         # week 4
         model.Package.by_name(u"test3").notes = "Test 3 notes"
         model.repo.commit_and_remove()
-
-    def test_top_rated_packages(self):
-        pkgs = Stats.top_rated_packages()
-        assert pkgs == []
 
     def test_largest_groups(self):
         grps = Stats.largest_groups()

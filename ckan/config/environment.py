@@ -11,7 +11,6 @@ import sqlalchemy
 
 from six.moves.urllib.parse import urlparse
 
-import ckan.config.routing as routing
 import ckan.model as model
 import ckan.plugins as p
 import ckan.lib.plugins as lib_plugins
@@ -235,22 +234,10 @@ def update_config():
                              config.get('solr_password'))
     search.check_solr_schema_version()
 
-    if six.PY2:
-        routes_map = routing.make_map()
-
     lib_plugins.reset_package_plugins()
     lib_plugins.register_package_plugins()
     lib_plugins.reset_group_plugins()
     lib_plugins.register_group_plugins()
-
-    if six.PY2:
-        config['routes.map'] = routes_map
-        # The RoutesMiddleware needs its mapper updating if it exists
-        if 'routes.middleware' in config:
-            config['routes.middleware'].mapper = routes_map
-        # routes.named_routes is a CKAN thing
-        config['routes.named_routes'] = routing.named_routes
-        config['pylons.app_globals'] = app_globals.app_globals
 
     # initialise the globals
     app_globals.app_globals._init()
@@ -299,7 +286,7 @@ def update_config():
 
     # Enable pessimistic disconnect handling (added in SQLAlchemy 1.2)
     # to eliminate database errors due to stale pooled connections
-    config.setdefault('pool_pre_ping', True)
+    config.setdefault('sqlalchemy.pool_pre_ping', True)
 
     # Initialize SQLAlchemy
     engine = sqlalchemy.engine_from_config(config)

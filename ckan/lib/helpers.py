@@ -18,12 +18,11 @@ import uuid
 import functools
 
 from collections import defaultdict
-from paste.deploy import converters
 
 import dominate.tags as dom_tags
 from markdown import markdown
 from bleach import clean as bleach_clean, ALLOWED_TAGS, ALLOWED_ATTRIBUTES
-from ckan.common import config, is_flask_request
+from ckan.common import asbool, config, is_flask_request
 from flask import redirect as _flask_redirect
 from flask import _request_ctx_stack
 from flask import url_for as _flask_default_url_for
@@ -2138,45 +2137,6 @@ def remove_url_param(key, value=None, replace=None, controller=None,
 
 
 @core_helper
-def include_resource(resource):
-    import ckan.lib.fanstatic_resources as fanstatic_resources
-    r = getattr(fanstatic_resources, resource)
-    r.need()
-
-
-@core_helper
-def urls_for_resource(resource):
-    ''' Returns a list of urls for the resource specified.  If the resource
-    is a group or has dependencies then there can be multiple urls.
-
-    NOTE: This is for special situations only and is not the way to generally
-    include resources.  It is advised not to use this function.'''
-    import ckan.lib.fanstatic_resources as fanstatic_resources
-
-    r = getattr(fanstatic_resources, resource)
-    resources = list(r.resources)
-    core = fanstatic_resources.fanstatic_extensions.core
-    f = core.get_needed()
-    lib = r.library
-    root_path = f.library_url(lib)
-
-    resources = core.sort_resources(resources)
-    if f._bundle:
-        resources = core.bundle_resources(resources)
-    out = []
-    for resource in resources:
-        if isinstance(resource, core.Bundle):
-            paths = [resource.relpath for resource in resource.resources()]
-            relpath = ';'.join(paths)
-            relpath = core.BUNDLE_PREFIX + relpath
-        else:
-            relpath = resource.relpath
-
-        out.append('%s/%s' % (root_path, relpath))
-    return out
-
-
-@core_helper
 def debug_inspect(arg):
     ''' Output pprint.pformat view of supplied arg '''
     return literal('<pre>') + pprint.pformat(arg) + literal('</pre>')
@@ -2892,7 +2852,7 @@ core_helper(i18n.get_available_locales)
 core_helper(i18n.get_locales_dict)
 core_helper(literal)
 # Useful additions from the paste library.
-core_helper(converters.asbool)
+core_helper(asbool)
 # Useful additions from the stdlib.
 core_helper(urlencode)
 core_helper(include_asset)
@@ -2920,8 +2880,12 @@ def load_plugin_helpers():
             raise logic.NotFoud(
                 u'The helper %r is not found for chained helper' % (name))
         for func in reversed(func_list):
-            helper_functions[name] = functools.partial(
+            new_func = functools.partial(
                 func, helper_functions[name])
+            # persisting attributes to the new partial function
+            for attribute, value in six.iteritems(func.__dict__):
+                setattr(new_func, attribute, value)
+            helper_functions[name] = new_func
 
 
 @core_helper

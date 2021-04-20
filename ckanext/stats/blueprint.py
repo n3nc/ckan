@@ -2,9 +2,9 @@
 
 from flask import Blueprint
 
-from ckan.plugins.toolkit import c, render
+from ckan.plugins.toolkit import render
 import ckanext.stats.stats as stats_lib
-import ckan.lib.helpers as h
+
 
 stats = Blueprint(u'stats', __name__)
 
@@ -13,7 +13,6 @@ stats = Blueprint(u'stats', __name__)
 def index():
     stats = stats_lib.Stats()
     extra_vars = {
-        u'top_rated_packages': stats.top_rated_packages(),
         u'largest_groups': stats.largest_groups(),
         u'top_tags': stats.top_tags(),
         u'top_package_creators': stats.top_package_creators(),

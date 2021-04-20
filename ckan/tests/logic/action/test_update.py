@@ -2,7 +2,7 @@
 """Unit tests for ckan/logic/action/update.py."""
 import datetime
 
-import mock
+import unittest.mock as mock
 import pytest
 import six
 
@@ -465,25 +465,6 @@ class TestUpdate(object):
         assert (
             helpers.call_action("organization_show", id="unchanging")["type"]
             == "organization"
-        )
-
-    def test_update_group_cant_change_type(self):
-        user = factories.User()
-        context = {"user": user["name"]}
-        group = factories.Group(type="group", name="unchanging", user=user)
-
-        group = helpers.call_action(
-            "group_update",
-            context=context,
-            id=group["id"],
-            name="unchanging",
-            type="favouritecolour",
-        )
-
-        assert group["type"] == "group"
-        assert (
-            helpers.call_action("group_show", id="unchanging")["type"]
-            == "group"
         )
 
 
@@ -1480,6 +1461,62 @@ class TestUserUpdate(object):
 
         user_obj = model.User.get(user["id"])
         assert user_obj.password != "pretend-this-is-a-valid-hash"
+
+    def test_user_update_image_url(self):
+        user = factories.User(image_url='user_image.jpg')
+        context = {"user": user["name"]}
+
+        user = helpers.call_action(
+            "user_update",
+            context=context,
+            id=user["name"],
+            email="test@example.com",
+            image_url="new_image_url.jpg",
+        )
+
+        assert user["image_url"] == "new_image_url.jpg"
+
+
+@pytest.mark.usefixtures("clean_db", "with_request_context")
+class TestGroupUpdate(object):
+    def test_group_update_image_url_field(self):
+        user = factories.User()
+        context = {"user": user["name"]}
+        group = factories.Group(
+            type="group",
+            name="testing",
+            user=user,
+            image_url='group_image.jpg')
+
+        group = helpers.call_action(
+            "group_update",
+            context=context,
+            id=group["id"],
+            name=group["name"],
+            type=group["type"],
+            image_url="new_image_url.jpg"
+        )
+
+        assert group["image_url"] == "new_image_url.jpg"
+
+    def test_group_update_cant_change_type(self):
+        user = factories.User()
+        context = {"user": user["name"]}
+        group = factories.Group(type="group", name="unchanging", user=user)
+
+        group = helpers.call_action(
+            "group_update",
+            context=context,
+            id=group["id"],
+            name="unchanging",
+            type="favouritecolour",
+        )
+
+        assert group["type"] == "group"
+        assert (
+            helpers.call_action("group_show", id="unchanging")["type"]
+            == "group"
+        )
 
 
 @pytest.mark.usefixtures("clean_db", "with_request_context")

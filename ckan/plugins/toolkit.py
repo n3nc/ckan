@@ -404,7 +404,7 @@ content type, cookies, etc.
 
         this_dir = os.path.dirname(filename)
         absolute_path = os.path.join(this_dir, relative_path)
-        if absolute_path not in config.get(config_var, ''):
+        if absolute_path not in config.get(config_var, '').split(','):
             if config.get(config_var):
                 config[config_var] += ',' + absolute_path
             else:
@@ -436,12 +436,6 @@ content type, cookies, etc.
         this_dir = os.path.dirname(filename)
         absolute_path = os.path.join(this_dir, path)
         create_library(name, absolute_path)
-
-        import six
-        if six.PY2:
-            # TODO: remove next two lines after dropping Fanstatic support
-            import ckan.lib.fanstatic_resources
-            ckan.lib.fanstatic_resources.create_library(name, absolute_path)
 
     @classmethod
     def _add_ckan_admin_tabs(cls, config, route_name, tab_label,
