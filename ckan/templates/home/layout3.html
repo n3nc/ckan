@@ -5,7 +5,7 @@
     {% endblock %}
   </div>
 </div>
-{% set groups_all = h.groups_available() %}
+{% set groups_all = h.groups_all() %}
 {% block group_list %}
 <div role="main" class="hero">
   <div class="container"  data-module="hierarchical-group-main" data-module-all="{{ groups_all }}" data-module-list="{{ groups_all|map(attribute='name')|list }}">
