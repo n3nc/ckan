@@ -23,10 +23,14 @@ vendor:
     preload:
       - vendor/select2-css
       - vendor/jquery
+      - mdi/css/materialdesignicons.css
   contents:
     - jed.js
     - moment-with-locales.js
     - select2/select2.js
+    - vue/vue.js
+    - g2.js
+    - data-set.js
 
 bootstrap:
   filters: rjsmin

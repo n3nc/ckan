@@ -1290,9 +1290,13 @@ class PackageController(base.BaseController):
         user_group_ids = set(group['id'] for group
                              in users_groups)
 
-        c.group_dropdown = [[group['id'], group['display_name']]
-                            for group in users_groups if
+        # song ssssssssssss
+        # c.group_dropdown = [[group['id'], group['display_name']]
+        #                     for group in users_groups if
+        #                     group['id'] not in pkg_group_ids]
+        c.group_dropdown = [group for group in users_groups if
                             group['id'] not in pkg_group_ids]
+        # song eeeeeeeeeeeeeee
 
         for group in c.pkg_dict.get('groups', []):
             group['user_member'] = (group['id'] in user_group_ids)
