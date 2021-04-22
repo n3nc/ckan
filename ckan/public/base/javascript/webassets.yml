@@ -62,6 +62,7 @@ ckan:
     - modules/hierarchical-group.js
     - modules/hierarchical-group-main.js
     - modules/treemap-chart.js
+    - modules/copy-clipboard.js
 
 tracking:
   output: base/%(version)s_tracking.js
@@ -73,3 +74,4 @@ tracking:
     - modules/hierarchical-group.js
     - modules/hierarchical-group-main.js
     - modules/treemap-chart.js
+    - modules/copy-clipboard.js
