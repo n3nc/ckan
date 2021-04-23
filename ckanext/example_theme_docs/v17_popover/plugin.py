@@ -1,2 +1,1 @@
-from ckanext.example_theme_docs.v16_initialize_a_javascript_module import plugin
-plugin.py
+../v16_initialize_a_javascript_module/plugin.py
