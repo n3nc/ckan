@@ -1,1 +1,2 @@
-../v08_custom_helper_function/plugin.py
+from ckanext.example_theme_docs.v08_custom_helper_function import plugin
+plugin.py

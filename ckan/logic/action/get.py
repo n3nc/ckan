@@ -1180,10 +1180,17 @@ def _group_or_org_show(context, data_dict, is_org=False):
     if not is_org and group.is_organization:
         raise NotFound
 
+    if asbool(data_dict.get('dataset_counts', False)):
+        dataset_counts = data_dict['dataset_counts']
+    else:
+        dataset_counts = None
+
     if is_org:
         _check_access('organization_show', context, data_dict)
+        each_count_dataset = dataset_counts['owner_org'] if dataset_counts is not None else None
     else:
         _check_access('group_show', context, data_dict)
+        each_count_dataset = dataset_counts['groups'] if dataset_counts is not None else None
 
     group_dict = model_dictize.group_dictize(group, context,
                                              packages_field=packages_field,
