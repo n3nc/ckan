@@ -23,7 +23,6 @@ vendor:
     preload:
       - vendor/select2-css
       - vendor/jquery
-      - mdi/css/materialdesignicons.css
   contents:
     - jed.js
     - moment-with-locales.js
