@@ -398,7 +398,9 @@ class PackageController(base.BaseController):
             resource['has_views'] = len(resource_views) > 0
 
             # Backwards compatibility with preview interface
-            resource['can_be_previewed'] = bool(len(resource_views))
+            # resource['can_be_previewed'] = bool(len(resource_views))
+            resource['can_be_previewed'] = self._resource_preview(
+                {'resource': resource, 'package': c.pkg_dict})
 
         package_type = c.pkg_dict['type'] or 'dataset'
         self._setup_template_variables(context, {'id': id},
@@ -701,6 +703,11 @@ class PackageController(base.BaseController):
             except ValidationError as e:
                 errors = e.error_dict
                 error_summary = e.error_summary
+                if data.get('url_type') == 'upload' and data.get('url'):
+                    data['url'] = ''
+                    data['url_type'] = ''
+                    data['previous_upload'] = True
+
                 return self.new_resource(id, data, errors, error_summary)
             except NotAuthorized:
                 abort(403, _('Unauthorized to create a resource'))
@@ -1119,7 +1126,9 @@ class PackageController(base.BaseController):
             context, {'id': resource_id})
         c.resource['has_views'] = len(resource_views) > 0
 
-        c.resource['can_be_previewed'] = bool(len(resource_views))
+        # c.resource['can_be_previewed'] = bool(len(resource_views))
+        c.resource['can_be_previewed'] = self._resource_preview(
+            {'resource': c.resource, 'package': c.package})
 
         current_resource_view = None
         view_id = request.GET.get('view_id')
