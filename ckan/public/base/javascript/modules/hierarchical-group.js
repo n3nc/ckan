@@ -30,10 +30,10 @@ this.ckan.module('hierarchical-group', function() {
 		<div v-else>
 			<div style="display: flex;">
 				<div v-for="c in categories" key="'tab-'+c.id"
-					style="position:relative; height: 2.5em; width: 8em; 
-					background-color: #fbfbfb; 
-					text-align: center; 
-					line-height: 2em; 
+					style="position:relative; height: 2.5em; width: 8em;
+					background-color: #fbfbfb;
+					text-align: center;
+					line-height: 2em;
 					cursor: pointer;"
 					:style="(currentTab==c.name)?{'background-color': '#f3f3f3', 'border':'1px solid #dddddd'}:{'background-color': '#fdfdfd', 'border':'1px solid #fdfdfd'}"
 				>
@@ -45,10 +45,10 @@ this.ckan.module('hierarchical-group', function() {
 			</div>
 			<ul class="media-grid" style="position: relative;" :style="{'height':((categories[currentTab].children.length/4)*213+'px')}">
 				<template v-if="categories[currentTab]">
-					<li class="media-item" 
-						:style="{'left': ((idx%4)*193)+'px', 'top': (15+Math.floor(idx/4)*194)+'px'}" 
-						style="position: absolute;" 
-						v-for="(g, idx) in categories[currentTab].children" 
+					<li class="media-item"
+						:style="{'left': ((idx%4)*193)+'px', 'top': (15+Math.floor(idx/4)*194)+'px'}"
+						style="position: absolute;"
+						v-for="(g, idx) in categories[currentTab].children"
 						:key="g.name"
 					>
 						<img :src="g.image_url" :alt="g.title" class="img-responsive media-image">
@@ -77,7 +77,7 @@ this.ckan.module('hierarchical-group', function() {
 			updateData() {
 				for(g of this.$root.groups) {
 					const group = (g.extras.length != 0 && g.extras[0].key == 'parent' )?g.extras[0].value: null;
-	
+
 					if (!group || group == '__root__')
 					{
 						if ( !(g.name in this.categories)) {
@@ -88,7 +88,7 @@ this.ckan.module('hierarchical-group', function() {
 								children: []
 							}
 						} else {
-							this.categories[g.name].name = g.name;						
+							this.categories[g.name].name = g.name;
 							this.categories[g.name].id = g.id;
 							this.categories[g.name].title = g.display_name;
 						}
@@ -110,15 +110,15 @@ this.ckan.module('hierarchical-group', function() {
 					}
 				}
 
-				let filteredCategories = {};
-				for(ci in this.categories) {
-					let c = this.categories[ci];
-					if (c.children.length > 0) 
-						filteredCategories[ci] = c;
+//				let filteredCategories = {};
+//				for(ci in this.categories) {
+//					let c = this.categories[ci];
+//					if (c.children.length > 0)
+//						filteredCategories[ci] = c;
+//
+//				}
 
-				}
-
-				this.categories = filteredCategories;
+//				this.categories = filteredCategories;
 
 				for(ci in this.categories) {
 					const c = this.categories[ci];
