@@ -17,8 +17,7 @@ this.ckan.module('hierarchical-group-main', function() {
 							:style="{'left': ((idx%item_column_count)*193)+'px', 'top': (15+Math.floor(idx/item_column_count)*204)+'px'}"
 							style="position: absolute;"
 							v-for="(g, idx) in groups"
-							:key="g.name"
-						>
+							:key="g.name">
 							<img :src="g.image_url" :alt="g.name" class="img-responsive media-image">
 							<h3 class="media-heading">{{g.title}}</h3>
 							<span class="count">{{ g.group?((g.group.title || g.group.name) +' > ' + g.title):g.title }}</span><br>
@@ -30,13 +29,12 @@ this.ckan.module('hierarchical-group-main', function() {
 				<div v-else-if="groups.length != 0">
 					<div style="display: flex;">
 						<div v-for="c in categories" key="'tab-'+c.id"
-							style="position:relative; height: 2.5em; width: 8em; 
-							background-color: #fbfbfb; 
-							text-align: center; 
-							line-height: 2em; 
+							style="position:relative; height: 2.5em; width: 8em;
+							background-color: #fbfbfb;
+							text-align: center;
+							line-height: 2em;
 							cursor: pointer;"
-							:style="(currentTab==c.name)?{'background-color': '#f3f3f3', 'border':'1px solid #dddddd'}:{'background-color': '#fdfdfd', 'border':'1px solid #fdfdfd'}"
-						>
+							:style="(currentTab==c.name)?{'background-color': '#f3f3f3', 'border':'1px solid #dddddd'}:{'background-color': '#fdfdfd', 'border':'1px solid #fdfdfd'}">
 							<span>
 								{{ c.title || c.name }}
 							</span>
@@ -45,12 +43,11 @@ this.ckan.module('hierarchical-group-main', function() {
 					</div>
 					<ul class="media-grid" style="position: relative;" :style="{'height':(Math.ceil(categories[currentTab].children.length/item_column_count)*213+'px')}">
 						<template v-if="categories[currentTab]">
-							<li class="media-item" 
-								:style="{'left': ((idx%item_column_count)*193)+'px', 'top': (15+Math.floor(idx/item_column_count)*194)+'px'}" 
-								style="position: absolute;" 
-								v-for="(g, idx) in categories[currentTab].children" 
-								:key="g.name"
-							>
+							<li class="media-item"
+								:style="{'left': ((idx%item_column_count)*193)+'px', 'top': (15+Math.floor(idx/item_column_count)*194)+'px'}"
+								style="position: absolute;"
+								v-for="(g, idx) in categories[currentTab].children"
+								:key="g.name">
 								<img :src="g.image_url" :alt="g.title" class="img-responsive media-image">
 								<h3 class="media-heading">{{g.title}}</h3>
 								<span><strong>{{ g.package_count + ' 데이터셋' }}</strong></span>
@@ -67,7 +64,7 @@ this.ckan.module('hierarchical-group-main', function() {
 				display_mode: 'group',
 				categories: {},
 				currentTab: '',
-				item_column_count: 4 
+				item_column_count: 4
 			}
 		},
 		methods: {
@@ -80,7 +77,7 @@ this.ckan.module('hierarchical-group-main', function() {
 				for(g of this.$root.groups) {
 					console.log('G:', g);
 					const group = (g.extras.length != 0 && g.extras[0].key == 'parent' )?g.extras[0].value: null;
-	
+
 					if (!group || group == '__root__')
 					{
 						if ( !(g.name in this.categories)) {
@@ -94,7 +91,7 @@ this.ckan.module('hierarchical-group-main', function() {
 								children: []
 							}
 						} else {
-							this.categories[g.name].name = g.name;						
+							this.categories[g.name].name = g.name;
 							this.categories[g.name].id = g.id;
 							this.categories[g.name].title = g.display_name;
 							this.categories[g.name].group = null;
