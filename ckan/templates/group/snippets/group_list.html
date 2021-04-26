@@ -11,7 +11,7 @@ Example:
 {% block hierarchical_group %}
 {% set groups_all = h.groups_all() %}
 
-<div data-module="hierarchical-group" data-module-all="{{ groups_all }}" data-module-list="{{ groups|map(attribute='name')|list }}">
+<div data-module="hierarchical-group" data-module-all="{{ groups_all }}" data-module-list="{{ groups_all|map(attribute='name')|list }}">
   <vue-main></vue-main>
 </div>
 {% endblock %}
