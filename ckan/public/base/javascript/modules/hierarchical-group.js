@@ -17,8 +17,7 @@ this.ckan.module('hierarchical-group', function() {
 					:style="{'left': ((idx%4)*193)+'px', 'top': (15+Math.floor(idx/4)*204)+'px'}"
 					style="position: absolute;"
 					v-for="(g, idx) in groups"
-					:key="g.name"
-				>
+					:key="g.name">
 					<img :src="g.image_url" :alt="g.name" class="img-responsive media-image">
 					<h3 class="media-heading">{{g.title}}</h3>
 					<span class="count">{{ g.group?((g.group.title || g.group.name) +' > ' + g.title):g.title }}</span><br>
@@ -35,8 +34,7 @@ this.ckan.module('hierarchical-group', function() {
 					text-align: center;
 					line-height: 2em;
 					cursor: pointer;"
-					:style="(currentTab==c.name)?{'background-color': '#f3f3f3', 'border':'1px solid #dddddd'}:{'background-color': '#fdfdfd', 'border':'1px solid #fdfdfd'}"
-				>
+					:style="(currentTab==c.name)?{'background-color': '#f3f3f3', 'border':'1px solid #dddddd'}:{'background-color': '#fdfdfd', 'border':'1px solid #fdfdfd'}" >
 					<span>
 						{{ c.title || c.name }}
 					</span>
@@ -49,8 +47,7 @@ this.ckan.module('hierarchical-group', function() {
 						:style="{'left': ((idx%4)*193)+'px', 'top': (15+Math.floor(idx/4)*194)+'px'}"
 						style="position: absolute;"
 						v-for="(g, idx) in categories[currentTab].children"
-						:key="g.name"
-					>
+						:key="g.name" >
 						<img :src="g.image_url" :alt="g.title" class="img-responsive media-image">
 						<h3 class="media-heading">{{g.title}}</h3>
 						<span><strong>{{ g.package_count + ' 데이터셋' }}</strong></span>
