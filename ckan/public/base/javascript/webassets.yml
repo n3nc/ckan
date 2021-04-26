@@ -71,7 +71,3 @@ tracking:
       - vendor/jquery
   contents:
     - tracking.js
-    - modules/hierarchical-group.js
-    - modules/hierarchical-group-main.js
-    - modules/treemap-chart.js
-    - modules/copy-clipboard.js
