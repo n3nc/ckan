@@ -28,7 +28,7 @@
     {{ form.image_upload(data, errors, is_upload_enabled=h.uploads_enabled(), is_url=is_url, is_upload=is_upload, upload_label=_('Profile picture'), url_label=_('Profile picture URL') ) }}
 
   </fieldset>
-
+  {% if h.check_access('user_create') %}
   <fieldset>
     <legend>{{ _('Change password') }}</legend>
     {{ form.input('old_password',
@@ -45,6 +45,7 @@
 
     {{ form.input('password2', type='password', label=_('Confirm Password'), id='field-password-confirm', value=data.password2, error=errors.password2, classes=['control-medium'], attrs={'autocomplete': 'off', 'class': 'form-control'}) }}
   </fieldset>
+  {% endif %}
 
   <div class="form-actions">
     {% block delete_button %}

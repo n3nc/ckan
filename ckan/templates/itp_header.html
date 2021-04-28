@@ -69,7 +69,8 @@
             <span class="text">Wildebeest Document</span>
           </a>
         </li>
-	{% endblock %}
+        <li>{% link_for _('Log in'), named_route='user.login' %}</li>
+	      {% endblock %}
       </ul>
     </nav>
     {% endif %} {% endblock %}
