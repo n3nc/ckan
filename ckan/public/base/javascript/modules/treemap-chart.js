@@ -37,7 +37,7 @@ this.ckan.module('treemap-chart', function() {
                     </div>
                     <div class="col-md-6 col2" style="padding: 0px;">
                         <div class="module-shallow box" style="width: 100%; border: 0px;">
-                            <div height='540px' ref='treemap1' style="width: 548px; height: 540px;"></div>
+                            <div height='540px' ref='treemap1' style="padding-right: 20px; height: 540px;"></div>
                         </div>
                     </div>
             </div>
