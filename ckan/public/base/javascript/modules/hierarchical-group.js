@@ -18,11 +18,11 @@ this.ckan.module('hierarchical-group', function() {
 					style="position: absolute;"
 					v-for="(g, idx) in groups"
 					:key="g.name">
-					<img :src="g.image_url" :alt="g.name" class="img-responsive media-image">
+					<img style="" :src="g.image_url" :alt="g.name" class="img-responsive media-image">
 					<h3 class="media-heading">{{g.title}}</h3>
 					<span class="count">{{ g.group?((g.group.title || g.group.name) +' > ' + g.title):g.title }}</span><br>
 					<span><strong>{{ g.package_count + ' 데이터셋' }}</strong></span>
-					<a :href="'/group/'+g.name" :title="g.title + ' 보기'" class="media-view"><span>{{g.title + ' 보기'}}</span></a>
+					<a style="" :href="'/group/'+g.name" :title="g.title + ' 보기'" class="media-view"><span>{{g.title + ' 보기'}}</span></a>
 				</li>
 			</ul>
 		</div>
@@ -48,10 +48,10 @@ this.ckan.module('hierarchical-group', function() {
 						style="position: absolute;"
 						v-for="(g, idx) in categories[currentTab].children"
 						:key="g.name" >
-						<img :src="g.image_url" :alt="g.title" class="img-responsive media-image">
+						<img style="" :src="g.image_url" :alt="g.title" class="img-responsive media-image">
 						<h3 class="media-heading">{{g.title}}</h3>
 						<span><strong>{{ g.package_count + ' 데이터셋' }}</strong></span>
-						<a :href="'/group/'+g.name" :title="g.title + ' 보기'" class="media-view"><span>{{g.title + ' 보기'}}</span></a>
+						<a style="" :href="'/group/'+g.name" :title="g.title + ' 보기'" class="media-view"><span>{{g.title + ' 보기'}}</span></a>
 					</li>
 				</template>
 			</ul>
