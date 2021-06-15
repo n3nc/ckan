@@ -96,3 +96,29 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+
+
+
+WILDEBEEST
+--------------------
+
+WILDEBEEST is a CKAN-based solution, which is a Data Catalog that shares data for publication purposes according to the DCAT/RDF standard. We are using CKAN, an open source, and according to CKAN's license policy, we disclose the used source code we used as follows:
+
+    https://github.com/n3nc/ckan
+
+    https://github.com/n3nc/ckanext-harvest
+
+    https://github.com/n3nc/ckanext-dcat
+
+    https://github.com/n3nc/ckanext-geoview
+
+    https://github.com/n3nc/ckanext-pdfview
+
+    https://github.com/n3nc/datapusher
+
+
+
+If there is anything we are missing, please contact us at the contact details below:
+
+    daniel@n3ncloud.co.kr / http://www.n3ncloud.co.kr
