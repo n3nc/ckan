@@ -257,49 +257,6 @@ th {
 
 /*! song sssssssssssssssssssssss */
 
-
-@font-face {
-    font-family: "NanumSquare";
-    src: url("../vendor/fonts/NanumSquareR.woff2") format('woff2');
-}
-
-/*
- * Nanum Gothic (Korean) http://www.google.com/webfonts/earlyaccess
- */
-
-@font-face {
-    font-family: 'Nanum Gothic';
-    font-style: normal;
-    font-weight: 700;
-    src: url("../vendor/fonts/NanumGothic-Bold.eot");
-    src: url("../vendor/fonts/NanumGothic-Bold.eot?#iefix") format('embedded-opentype'),
-    url("../vendor/fonts/NanumGothic-Bold.woff2") format('woff2'),
-    url("../vendor/fonts/NanumGothic-Bold.woff") format('woff'),
-    url("../vendor/fonts/NanumGothic-Bold.ttf") format('truetype');
-}
-
-@font-face {
-    font-family: 'Nanum Gothic';
-    font-style: normal;
-    font-weight: 400;
-    src: url("../vendor/fonts/NanumGothic-Regular.eot");
-    src: url("../vendor/fonts/NanumGothic-Regular.eot?#iefix") format('embedded-opentype'),
-    url("../vendor/fonts/NanumGothic-Regular.woff2") format('woff2'),
-    url("../vendor/fonts/NanumGothic-Regular.woff") format('woff'),
-    url("../vendor/fonts/NanumGothic-Regular.ttf") format('truetype');
-}
-
-@font-face {
-    font-family: 'Nanum Gothic';
-    font-style: normal;
-    font-weight: 800;
-    src: url("../vendor/fonts/NanumGothic-ExtraBold.eot");
-    src: url("../vendor/fonts/NanumGothic-ExtraBold.eot?#iefix") format('embedded-opentype'),
-    url("../vendor/fonts/NanumGothic-ExtraBold.woff2") format('woff2'),
-    url("../vendor/fonts/NanumGothic-ExtraBold.woff") format('woff'),
-    url("../vendor/fonts/NanumGothic-ExtraBold.ttf") format('truetype');
-}
-
 /*! song eeeeeeeeeeeeeeeeeeeeeee */
 
 
@@ -1122,7 +1079,7 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 body {
-  font-family: 'Nanum Gothic', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Malgun Gothic", "dotum", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.42857143;
   color: #333333;
