@@ -924,25 +924,27 @@ def dict_only(value):
         raise Invalid(_('Must be a dict'))
     return value
 
+
 def email_is_unique(key, data, errors, context):
     '''Validate email is unique'''
-    model = context['model']
-    session = context['session']
+    # model = context['model']
+    # session = context['session']
 
-    users = session.query(model.User) \
-            .filter(model.User.email == data[key]).all()
-    # is there is no users with this email it's free
-    if not users:
-        return
-    else:
-        # allow user to update their own email
-        for user in users:
-            if (user.name == data[("name",)]
-                    or user.id == data[("id",)]):
-                return
-
-    raise Invalid(
-        _('The email address \'{email}\' belongs to a registered user.').format(email=data[key]))
+    # users = session.query(model.User) \
+    #         .filter(model.User.email == data[key]).all()
+    # # is there is no users with this email it's free
+    # if not users:
+    #     return
+    # else:
+    #     # allow user to update their own email
+    #     for user in users:
+    #         if (user.name == data[("name",)]
+    #                 or user.id == data[("id",)]):
+    #             return
+    #
+    # raise Invalid(
+    #     _('The email address \'{email}\' belongs to a registered user.').format(email=data[key]))
+    return
 
 
 def one_of(list_of_value):
